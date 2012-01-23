@@ -1,0 +1,20 @@
+Default: &defaults
+  database: first-heroku.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Test:
+  database: first-heroku_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: first-heroku_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: first-heroku_production.sqlite3
+  poolsize: 100
+  <<: *defaults
