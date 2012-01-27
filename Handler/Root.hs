@@ -1,17 +1,40 @@
 module Handler.Root where
 
 import Import
+import Data.Int
 
--- This is a handler function for the GET request method on the RootR
--- resource pattern. All of your resource patterns are defined in
--- config/routes
---
--- The majority of the code you will write in Yesod lives in these handler
--- functions. You can spread them across multiple files if you are so
--- inclined, or create a single monolithic file.
+data MemoForm = MemoForm {
+  text :: Textarea
+}
+
+selectAllMemos = do
+  selectList [] []
+
+memoForm :: Html -> MForm Jabaraster Jabaraster (FormResult MemoForm, Widget)
+memoForm = renderDivs $ MemoForm
+  <$> areq textareaField "あたらしいメモ" Nothing
+
 getRootR :: Handler RepHtml
 getRootR = do
-    defaultLayout $ do
-        h2id <- lift newIdent
-        setTitle "first-heroku homepage"
-        $(widgetFile "homepage")
+  ((_, widget), enctype) <- runFormPost memoForm
+  memos <- runDB $ selectAllMemos
+  defaultLayout $ do
+    setTitle "first-heroku homepage"
+    $(widgetFile "homepage")
+
+postRootR :: Handler RepHtml
+postRootR = do
+  ((result, _), _) <- runFormPost memoForm
+  case result of
+    FormSuccess form -> do
+      _ <- runDB $ insert Memo {
+                            memoText = unTextarea $ text form
+                          }
+      redirect RedirectSeeOther RootR
+    _  -> do
+      redirect RedirectSeeOther RootR
+
+fromKey :: Key backend entity -> Integer
+fromKey key = case (fromPersistValue $ unKey key) :: Either String Int64 of
+                       Left  s -> read s
+                       Right i -> read $ show i

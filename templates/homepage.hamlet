@@ -1,2 +1,11 @@
-<h1>_{MsgHello}
-<h2 ##{h2id}>You do not have Javascript enabled.
+<h1>かんたんメモ
+
+$forall memo <- memos
+  <div class="memoText">#{memoText $ snd memo}
+    <form class=inline method=post action=@{DeleteMemoR $ fromKey $ fst memo}><input class="delete" type=submit value="削除">
+<hr>
+<form enctype=#{enctype} method=post>
+  ^{widget}
+  <input type=submit value="保存">
+
+<footer>build by Yesod

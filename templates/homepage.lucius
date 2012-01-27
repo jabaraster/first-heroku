@@ -1,6 +1,39 @@
-h1 {
-    text-align: center
+body {
+  margin: 1em;
 }
-h2##{h2id} {
-    color: #990
+
+h1 {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(150, 150, 0);
+}
+
+div.required {
+  margin: 0.2em;
+}
+
+div.memoText {
+  margin: 0.5em;
+  padding: 0.1em;
+  border-left: solid 1px rgb(150,150,150);
+  border-bottom: solid 1px rgb(150,150,150);
+}
+
+form.inline {
+  display: inline;
+}
+
+input[type="submit"].delete {
+  border: solid 2px red;
+  color: rgb(255, 0, 0);
+  background-color: rgb(255, 200, 200);
+  border-radius: 4px;
+}
+
+footer {
+  margin-top: 2em;
+  padding-left: 0.5em;
+  font-size: small;
+  color: rgb(200, 200, 255);
+  background-color: rgb(120, 120, 90);
 }
